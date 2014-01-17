@@ -1,0 +1,236 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+BUILDRANK	buildrank.h	2;"	d
+CPPair	model12.h	/^		CPPair():count(0),prob(0){}$/;"	f	class:CPPair
+CPPair	model12.h	/^		CPPair(double c, double p):count(c), prob(p){}$/;"	f	class:CPPair
+CPPair	model12.h	/^class CPPair$/;"	c
+CPPair	rankmodel.h	/^		CPPair():count(0),prob(0){}$/;"	f	class:CPPair
+CPPair	rankmodel.h	/^		CPPair(double c, double p):count(c), prob(p){}$/;"	f	class:CPPair
+CPPair	rankmodel.h	/^class CPPair{$/;"	c
+Decoder	rankmodel.cpp	/^void RankModel::Decoder(string en, string fr, int N, vector<vector<fs_logp> >& logp_record, const char* fn_tffe){$/;"	f	class:RankModel
+EList	buildrank.h	/^		VcbList& EList;$/;"	m	class:buildrank
+EList	model12.h	/^		VcbList& EList;$/;"	m	class:model12
+EList	rankmodel.h	/^		VcbList& EList;$/;"	m	class:RankModel
+EList	sortmodel1.h	/^		VcbList& EList;$/;"	m	class:SortModel1
+EList	sortrank.h	/^		VcbList& EList;$/;"	m	class:SortRank
+FFEPair	rankmodel.h	/^		FFEPair(WordIndex i, WordIndex j, WordIndex k):fr_id(i), frtr_id(j), en_id(k){}$/;"	f	class:FFEPair
+FFEPair	rankmodel.h	/^class FFEPair{$/;"	c
+FFEPair	test.cpp	/^		FFEPair(WordIndex i, WordIndex j, WordIndex k):fr_id(i), frtr_id(j), en_id(k){}$/;"	f	class:FFEPair
+FFEPair	test.cpp	/^class FFEPair{$/;"	c	file:
+FList	buildrank.h	/^		VcbList& FList;$/;"	m	class:buildrank
+FList	model12.h	/^		VcbList& FList;$/;"	m	class:model12
+FList	rankmodel.h	/^		VcbList& FList;$/;"	m	class:RankModel
+FList	sortmodel1.h	/^		VcbList& FList;$/;"	m	class:SortModel1
+FList	sortrank.h	/^		VcbList& FList;$/;"	m	class:SortRank
+FPair	rankmodel.h	/^		FPair():f_id(0), ft_id(0){}$/;"	f	class:FPair
+FPair	rankmodel.h	/^		FPair(WordIndex i, WordIndex j):f_id(i), ft_id(j){}$/;"	f	class:FPair
+FPair	rankmodel.h	/^class FPair{$/;"	c
+G1	gl_defs.h	/^const long long G1 = MAX_SENTENCE_LENGTH + 5;$/;"	v
+G2	gl_defs.h	/^const long long G2 = G1*G1, G3 = G2*G1;$/;"	v
+G3	gl_defs.h	/^const long long G2 = G1*G1, G3 = G2*G1;$/;"	v
+GL_DEFS_H	gl_defs.h	4;"	d
+MAX_SENTENCE_LENGTH	gl_defs.h	/^const unsigned int MAX_SENTENCE_LENGTH = 150;$/;"	v
+MAX_VOCAB_SIZE	gl_defs.h	/^const unsigned int MAX_VOCAB_SIZE = UINT_MAX;$/;"	v
+MAX_W	gl_defs.h	/^const int MAX_W = 460000;$/;"	v
+MAX_W	test.cpp	/^const int MAX_W = 10;$/;"	v
+ML	predo/lsdalign.cpp	/^const unsigned int ML = 150;$/;"	v
+ML	predo/p2rs.cpp	/^const unsigned int ML = 150;$/;"	v
+MODEL12_H	model12.h	4;"	d
+Num	buildrank.h	/^		int Num;$/;"	m	class:buildrank
+Num	sortmodel1.h	/^		int Num;$/;"	m	class:SortModel1
+Num	sortrank.h	/^		int Num;$/;"	m	class:SortRank
+PositionIndex	gl_defs.h	/^typedef unsigned int PositionIndex;$/;"	t
+RANKMODEL	rankmodel.h	2;"	d
+RankModel	rankmodel.h	/^		RankModel(VcbList& en, VcbList& fr):EList(en), FList(fr){}$/;"	f	class:RankModel
+RankModel	rankmodel.h	/^class RankModel{$/;"	c
+RankSent	rankmodel.h	/^		RankSent(){}$/;"	f	class:RankSent
+RankSent	rankmodel.h	/^class RankSent{$/;"	c
+SENTENCE_H	sentence.h	4;"	d
+SORTMODEL1	sortmodel1.h	2;"	d
+SORTRANK	sortrank.h	2;"	d
+SentPair	sentence.h	/^		SentPair(){}$/;"	f	class:SentPair
+SentPair	sentence.h	/^class SentPair$/;"	c
+SentenceHandle	sentence.cpp	/^SentenceHandle::SentenceHandle(const char* fn){$/;"	f	class:SentenceHandle
+SentenceHandle	sentence.h	/^class SentenceHandle$/;"	c
+SortModel1	sortmodel1.h	/^		SortModel1(string e, string f, int n, VcbList& el, VcbList& fl):en_name(e), fr_name(f), Num(n), EList(el), FList(fl) {}$/;"	f	class:SortModel1
+SortModel1	sortmodel1.h	/^class SortModel1$/;"	c
+SortRank	sortrank.h	/^		SortRank(string e, string f, int n, VcbList& el, VcbList& fl):en_name(e), fr_name(f), Num(n), EList(el), FList(fl){}$/;"	f	class:SortRank
+SortRank	sortrank.h	/^class SortRank{$/;"	c
+TRAIN_BUFFER_SIZE	gl_defs.h	/^const int TRAIN_BUFFER_SIZE = 50000;$/;"	v
+VOCAB_H	vocab.h	4;"	d
+VcbList	vocab.h	/^		VcbList(const VcbList& a):volist(a.volist), s2i(a.s2i), total(a.total), noUniqueTokens(a.noUniqueTokens), filename(a.filename){}$/;"	f	class:VcbList
+VcbList	vocab.h	/^		VcbList(const char* p):volist(), total(0), noUniqueTokens(0), filename(p){}$/;"	f	class:VcbList
+VcbList	vocab.h	/^class VcbList$/;"	c
+WordEntry	vocab.h	/^		WordEntry():word("\\0"), freq(0){};$/;"	f	class:WordEntry
+WordEntry	vocab.h	/^		WordEntry(string s, int f):word(s), freq(f){};$/;"	f	class:WordEntry
+WordEntry	vocab.h	/^class WordEntry$/;"	c
+WordIndex	gl_defs.h	/^typedef unsigned int WordIndex;$/;"	t
+WordIndex	test.cpp	/^typedef unsigned int WordIndex;$/;"	t	file:
+WordPairIds	gl_defs.h	/^typedef pair<WordIndex, WordIndex> WordPairIds;$/;"	t
+__DEPRECATED	model12.h	6;"	d
+__DEPRECATED	model1main.cpp	1;"	d	file:
+__DEPRECATED	multimain.cpp	1;"	d	file:
+__DEPRECATED	rankmain.cpp	1;"	d	file:
+__DEPRECATED	rankmodel.h	4;"	d
+__DEPRECATED	trainmain.cpp	1;"	d	file:
+buildmodel	buildrank.cpp	/^void buildrank::buildmodel(const char* in_file){$/;"	f	class:buildrank
+buildmodel_old	buildrank.cpp	/^void buildrank::buildmodel_old(const char* in_file){$/;"	f	class:buildrank
+buildrank	buildrank.h	/^		buildrank(string e, string f, int N, VcbList& el, VcbList& fl):en_name(e), fr_name(f), Num(N), EList(el), FList(fl) {}$/;"	f	class:buildrank
+buildrank	buildrank.h	/^class buildrank$/;"	c
+cal_ef	model12.h	/^		hash_map<WordPairIds, CPPair, hashpair, equal_to<WordPairIds> > cal_ef;$/;"	m	class:model12
+cal_logp	model12.cpp	/^void model12::cal_logp(int no, vector<fs_logp>& fe_logp){$/;"	f	class:model12
+cal_logp	rankmodel.cpp	/^void RankModel::cal_logp(int no, vector<fs_logp>& ffe_logp){$/;"	f	class:RankModel
+cal_logp	sortmodel1.cpp	/^void SortModel1::cal_logp(){$/;"	f	class:SortModel1
+cal_logp	sortrank.cpp	/^void SortRank::cal_logp(){$/;"	f	class:SortRank
+cal_tffe1	rankmodel.cpp	/^void RankModel::cal_tffe1(const char* pct){$/;"	f	class:RankModel
+clear	rankmodel.h	/^		void clear(){$/;"	f	class:RankSent
+clear	sentence.h	/^		void clear(){$/;"	f	class:SentPair
+count	model12.h	/^		double count;$/;"	m	class:CPPair
+count	rankmodel.h	/^		double count;$/;"	m	class:CPPair
+count_e	model12.h	/^		map<WordIndex, double> count_e;$/;"	m	class:model12
+count_e	rankmodel.h	/^		map<WordIndex, double> count_e;$/;"	m	class:RankModel
+count_ilm	model12.h	/^		map<WordIndex, double> count_ilm;$/;"	m	class:model12
+count_jilm	model12.h	/^		map<WordIndex, double> count_jilm;$/;"	m	class:model12
+count_jlm	model12.h	/^		map<WordIndex, double> count_jlm;$/;"	m	class:model12
+currentSentence	sentence.h	/^		int currentSentence;$/;"	m	class:SentenceHandle
+decode2	rankmodel.cpp	/^void RankModel::decode2(string en_name, string lsda_name, int no, vector<fs_logp>& ffe_logp){$/;"	f	class:RankModel
+decode_en	rankmodel.h	/^    vector<vector<WordIndex> > decode_en;$/;"	m	class:RankModel
+decode_frarr	rankmodel.h	/^    vector<vector<vector<string> > > decode_frarr;$/;"	m	class:RankModel
+decode_init	rankmodel.cpp	/^void RankModel::decode_init(string en_name, string fr_name, int N, vector<vector<fs_logp> >& logp_record){$/;"	f	class:RankModel
+decodemodel	buildrank.cpp	/^void buildrank::decodemodel(const char* in_tffe){$/;"	f	class:buildrank
+decoding	rankmodel.cpp	/^void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs_logp> >& logp_record){$/;"	f	class:RankModel
+em_algo1	model12.cpp	/^void model12::em_algo1(int noIterations){$/;"	f	class:model12
+em_algo1	rankmodel.cpp	/^void RankModel::em_algo1(int noIterations){$/;"	f	class:RankModel
+em_algo2	model12.cpp	/^void model12::em_algo2(int noIterations){$/;"	f	class:model12
+em_algo2	rankmodel.cpp	/^void RankModel::em_algo2(int noIterations){$/;"	f	class:RankModel
+en_id	rankmodel.h	/^		WordIndex en_id;$/;"	m	class:FFEPair
+en_id	test.cpp	/^		WordIndex en_id;$/;"	m	class:FFEPair	file:
+en_name	buildrank.h	/^		string en_name;$/;"	m	class:buildrank
+en_name	sortmodel1.h	/^		string en_name;$/;"	m	class:SortModel1
+en_name	sortrank.h	/^		string en_name;$/;"	m	class:SortRank
+equal_ffe	rankmodel.h	/^class equal_ffe{$/;"	c
+equal_ffe	test.cpp	/^class equal_ffe{$/;"	c	file:
+esent	rankmodel.h	/^		vector<WordIndex> esent;$/;"	m	class:RankSent
+esent	sentence.h	/^		vector<WordIndex> esent;$/;"	m	class:SentPair
+f_id	rankmodel.h	/^		WordIndex f_id;$/;"	m	class:FPair
+ffsent	rankmodel.h	/^		vector<FPair> ffsent;$/;"	m	class:RankSent
+filename	sentence.h	/^		const char* filename;$/;"	m	class:SentenceHandle
+filename	vocab.h	/^		const char* filename;$/;"	m	class:VcbList
+fr_id	rankmodel.h	/^		WordIndex fr_id;$/;"	m	class:FFEPair
+fr_id	test.cpp	/^		WordIndex fr_id;$/;"	m	class:FFEPair	file:
+fr_name	buildrank.h	/^		string fr_name;$/;"	m	class:buildrank
+fr_name	sortmodel1.h	/^		string fr_name;$/;"	m	class:SortModel1
+fr_name	sortrank.h	/^		string fr_name;$/;"	m	class:SortRank
+freq	vocab.h	/^		double freq;$/;"	m	class:WordEntry
+frtr_id	rankmodel.h	/^		WordIndex frtr_id;$/;"	m	class:FFEPair
+frtr_id	test.cpp	/^		WordIndex frtr_id;$/;"	m	class:FFEPair	file:
+fs_logp	model12.h	/^		fs_logp(const fs_logp& qq): nof(qq.nof), logp(qq.logp) {}$/;"	f	class:fs_logp
+fs_logp	model12.h	/^		fs_logp(int k=0, double p=0):nof(k), logp(p){}$/;"	f	class:fs_logp
+fs_logp	model12.h	/^class fs_logp{$/;"	c
+fs_logp	rankmodel.h	/^		fs_logp(const fs_logp& qq): nof(qq.nof), logp(qq.logp) {}$/;"	f	class:fs_logp
+fs_logp	rankmodel.h	/^		fs_logp(int k=0, double p=0):nof(k), logp(p){}$/;"	f	class:fs_logp
+fs_logp	rankmodel.h	/^class fs_logp{$/;"	c
+fsent	sentence.h	/^		vector<WordIndex> fsent;$/;"	m	class:SentPair
+ft_id	rankmodel.h	/^		WordIndex ft_id;$/;"	m	class:FPair
+getNextSentence	sentence.cpp	/^bool SentenceHandle::getNextSentence(SentPair& sent){$/;"	f	class:SentenceHandle
+getSentenceNo	sentence.h	/^		int getSentenceNo() const{$/;"	f	class:SentPair
+getVocalList	vocab.h	/^		inline vector<WordEntry>& getVocalList() { return volist; }$/;"	f	class:VcbList
+get_esent	sentence.h	/^		const vector<WordIndex>& get_esent() const{$/;"	f	class:SentPair
+get_fsent	sentence.h	/^		const vector<WordIndex>& get_fsent() const{$/;"	f	class:SentPair
+getindex	rankmodel.h	/^		size_t getindex() const{$/;"	f	class:FFEPair
+getindex	test.cpp	/^		size_t getindex() const{$/;"	f	class:FFEPair
+hash_ffe	rankmodel.h	/^class hash_ffe{$/;"	c
+hash_ffe	test.cpp	/^class hash_ffe{$/;"	c	file:
+hashfunc	rankmodel.h	/^class hashfunc: public unary_function< pair<WordIndex, WordIndex>, size_t>$/;"	c
+hashpair	model12.h	/^class hashpair: public unary_function< pair<WordIndex, WordIndex>, size_t>$/;"	c
+info_fe	rankmodel.h	/^		hash_map<WordPairIds, CPPair, hashfunc, equal_to<WordPairIds> > info_fe;$/;"	m	class:RankModel
+info_ffe	rankmodel.h	/^		hash_map<FFEPair, CPPair, hash_ffe, equal_ffe> info_ffe;$/;"	m	class:RankModel
+initialization	model12.cpp	/^void model12::initialization(){$/;"	f	class:model12
+ldsalignment	predo/lsdalign.cpp	/^void ldsalignment(vector<string>& f1, vector<string>& f2, vector<string>& ans){$/;"	f
+ldsalignment	predo/p2rs.cpp	/^void ldsalignment(vector<string>& f1, vector<string>& f2, vector<string>& ans){$/;"	f
+logp	model12.h	/^		double logp;$/;"	m	class:fs_logp
+logp	rankmodel.h	/^		double logp;$/;"	m	class:fs_logp
+logp_array	buildrank.h	/^		vector<vector<fs_logp> > logp_array;$/;"	m	class:buildrank
+logp_array	sortmodel1.h	/^		vector<vector<fs_logp> > logp_array;$/;"	m	class:SortModel1
+logp_array	sortrank.h	/^		vector<vector<fs_logp> > logp_array;$/;"	m	class:SortRank
+lsdalignment	rankmodel.cpp	/^void lsdalignment(const vector<string>& f1, const vector<string>& f2, vector<string>& ans){$/;"	f
+main	model1main.cpp	/^int main(int argc, char **argv)$/;"	f
+main	multimain.cpp	/^int main(int argc, char **argv)$/;"	f
+main	predo/lsdalign.cpp	/^int main(int argc, char** argv){$/;"	f
+main	predo/p2rs.cpp	/^int main(int argc, char** argv){$/;"	f
+main	predo/p2s.cpp	/^int main(int argc, char** argv){$/;"	f
+main	rankmain.cpp	/^int main(int argc, char **argv)$/;"	f
+main	test.cpp	/^int main(){$/;"	f
+main	trainmain.cpp	/^int main(int argc, char **argv)$/;"	f
+min2	predo/lsdalign.cpp	/^int min2(int t1, int t2){$/;"	f
+min2	predo/p2rs.cpp	/^int min2(int t1, int t2){$/;"	f
+min2	rankmodel.cpp	/^int min2(int t1, int t2){$/;"	f
+min3	predo/lsdalign.cpp	/^int min3(int t1, int t2, int t3){$/;"	f
+min3	predo/p2rs.cpp	/^int min3(int t1, int t2, int t3){$/;"	f
+min3	rankmodel.cpp	/^int min3(int t1, int t2, int t3){$/;"	f
+model12	model12.h	/^		model12(VcbList& el, VcbList& fl, SentenceHandle& sh): EList(el), FList(fl), sHander(sh) {}$/;"	f	class:model12
+model12	model12.h	/^class model12$/;"	c
+multibuild	buildrank.cpp	/^void buildrank::multibuild(const char* in_file){$/;"	f	class:buildrank
+multisort_print	buildrank.cpp	/^void buildrank::multisort_print(int kk, const char* fn_sort){$/;"	f	class:buildrank
+new_start	sentence.cpp	/^void SentenceHandle::new_start(){$/;"	f	class:SentenceHandle
+noOcc	sentence.h	/^		float noOcc;$/;"	m	class:SentPair
+noSent	rankmodel.h	/^		int noSent;$/;"	m	class:RankSent
+noSent	sortmodel1.h	/^		int noSent;$/;"	m	class:SortModel1
+noSent	sortrank.h	/^		int noSent;$/;"	m	class:SortRank
+noSentInBuffer	sentence.h	/^		int noSentInBuffer;$/;"	m	class:SentenceHandle
+noUniqueTokens	vocab.h	/^		WordIndex noUniqueTokens;$/;"	m	class:VcbList
+nof	model12.h	/^		int nof;$/;"	m	class:fs_logp
+nof	rankmodel.h	/^		int nof;$/;"	m	class:fs_logp
+objects	history.mk	/^objects = vocab.o rankmodel.o sortrank.o rankmain.o$/;"	m
+objects1	Makefile	/^objects1 = vocab.o rankmodel.o buildrank.o rankmain.o$/;"	m
+objects2	Makefile	/^objects2 = vocab.o sentence.o model12.o sortmodel1.o model1main.o$/;"	m
+objects3	Makefile	/^objects3 = vocab.o rankmodel.o buildrank.o multimain.o$/;"	m
+operator ()	model12.h	/^		size_t operator() (const pair<WordIndex, WordIndex>& key) const$/;"	f	class:hashpair
+operator ()	rankmodel.h	/^		bool operator()(const class FFEPair& x, const class FFEPair& y) const{$/;"	f	class:equal_ffe
+operator ()	rankmodel.h	/^		size_t operator() (const pair<WordIndex, WordIndex>& key) const$/;"	f	class:hashfunc
+operator ()	rankmodel.h	/^		size_t operator()(const class FFEPair& x) const{$/;"	f	class:hash_ffe
+operator ()	test.cpp	/^		bool operator()(const class FFEPair& x, const class FFEPair& y) const{$/;"	f	class:equal_ffe
+operator ()	test.cpp	/^		size_t operator()(const class FFEPair& x) const{$/;"	f	class:hash_ffe
+operator <	model12.h	/^		bool operator < (const fs_logp& yy) const{$/;"	f	class:fs_logp
+operator <	rankmodel.h	/^		bool operator < (const fs_logp& yy) const{$/;"	f	class:fs_logp
+operator []	vocab.h	/^		const string operator[](WordIndex id){$/;"	f	class:VcbList
+operator []	vocab.h	/^		int operator[](const string& x) const{$/;"	f	class:VcbList
+p_inputFile	sentence.h	/^		ifstream* p_inputFile;$/;"	m	class:SentenceHandle
+pair_no	sentence.h	/^		int pair_no;$/;"	m	class:SentenceHandle
+print_align	model12.cpp	/^void model12::print_align(ofstream& of)$/;"	f	class:model12
+print_align	rankmodel.cpp	/^void RankModel::print_align(ofstream& of){$/;"	f	class:RankModel
+print_tfe	model12.cpp	/^void model12::print_tfe(const char* cooc_f, ofstream& of){$/;"	f	class:model12
+print_tffe	rankmodel.cpp	/^void RankModel::print_tffe(const char* fn_tffe){$/;"	f	class:RankModel
+prob	model12.h	/^		double prob;$/;"	m	class:CPPair
+prob	rankmodel.h	/^		double prob;$/;"	m	class:CPPair
+q_jilm	model12.h	/^		map<WordIndex, double> q_jilm;$/;"	m	class:model12
+rankcorpus	rankmodel.h	/^		vector<RankSent> rankcorpus;$/;"	m	class:RankModel
+readNextSentence	sentence.cpp	/^bool SentenceHandle::readNextSentence(SentPair& sent){$/;"	f	class:SentenceHandle
+readVocalList	vocab.cpp	/^void VcbList::readVocalList()$/;"	f	class:VcbList
+readcorpus	rankmodel.cpp	/^void RankModel::readcorpus(const char* in_file){$/;"	f	class:RankModel
+s2i	vocab.h	/^		map<string, int> s2i;$/;"	m	class:VcbList
+sHander	model12.h	/^		SentenceHandle& sHander;$/;"	m	class:model12
+sent_buffer	sentence.h	/^		vector<SentPair> sent_buffer;$/;"	m	class:SentenceHandle
+sentenceNo	sentence.h	/^		int sentenceNo;$/;"	m	class:SentPair
+setName	vocab.h	/^		void setName(const char* p) { filename = p; }$/;"	f	class:VcbList
+size	vocab.h	/^		inline WordIndex size() const { return volist.size(); }$/;"	f	class:VcbList
+sort_print	buildrank.cpp	/^void buildrank::sort_print(const char* fn_sort){$/;"	f	class:buildrank
+sort_print	sortmodel1.cpp	/^void SortModel1::sort_print(){$/;"	f	class:SortModel1
+sort_print	sortrank.cpp	/^void SortRank::sort_print(){$/;"	f	class:SortRank
+t_ffe	rankmodel.h	/^		hash_map<FFEPair, CPPair, hash_ffe, equal_ffe> t_ffe;$/;"	m	class:RankModel
+total	vocab.h	/^		double total;$/;"	m	class:VcbList
+totalPair	sentence.h	/^		int totalPair;$/;"	m	class:SentenceHandle
+totalVocab	vocab.h	/^		inline double totalVocab() const { return total; }$/;"	f	class:VcbList
+train_init1	rankmodel.cpp	/^void RankModel::train_init1(){$/;"	f	class:RankModel
+train_init2	rankmodel.cpp	/^void RankModel::train_init2(){$/;"	f	class:RankModel
+uniqTokens	vocab.h	/^		inline WordIndex uniqTokens() const { return noUniqueTokens; }$/;"	f	class:VcbList
+volist	vocab.h	/^		vector<WordEntry> volist;$/;"	m	class:VcbList
+word	vocab.h	/^		string word;$/;"	m	class:WordEntry
+zsInt2String	predo/p2rs.cpp	/^string zsInt2String(int i){$/;"	f
+zsInt2String	rankmodel.cpp	/^string zsInt2String(int i){$/;"	f
+zsInt2String	sortmodel1.cpp	/^string zsInt2String(int i){$/;"	f
+zsInt2String	sortrank.cpp	/^string zsInt2String(int i){$/;"	f
