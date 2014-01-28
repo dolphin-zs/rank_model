@@ -380,8 +380,8 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
     for(int j=1;j <= N;j++){
       if(i != j){
 
-        string fn_lsda = fr_name + zsInt2String(i) + "_" + zsInt2String(j) + ".comp";
-        ofstream of_lsda(fn_lsda.c_str());
+//        string fn_lsda = fr_name + zsInt2String(i) + "_" + zsInt2String(j) + ".comp";
+//        ofstream of_lsda(fn_lsda.c_str());
 
         cout<<"handling "<<fr_name<<i<<"_"<<j<<" part"<<endl;
         vector<vector<string> >& ft_corpus = decode_frarr[j];
@@ -401,9 +401,9 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
           //cout<<"doing alignment line "<<k+1<<endl;
           lsdalignment(f_temp_sent, ft_temp_sent, lsda_temp_sent);
 
-          //for(int rr=0;rr < lsda_temp_sent.size();rr++)
-          //    of_lsda<<lsda_temp_sent[rr]<<"  ";
-          //of_lsda<<"\n";
+//         for(int rr=0;rr < lsda_temp_sent.size();rr++)
+//              of_lsda<<lsda_temp_sent[rr]<<"  ";
+//          of_lsda<<"\n";
 
           double sent_logp = 0;
           for(int rr=0;rr < lsda_temp_sent.size();rr++){
@@ -417,7 +417,7 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
             WordIndex fr_id = FList[fr_str];
             WordIndex ft_id = FList[ft_str];
 
-            of_lsda<<fr_id<<" "<<ft_id<<"  ";
+//            of_lsda<<fr_id<<" "<<ft_id<<"  ";
 
             temp = 0;
             for(int cc=0;cc < es.size();cc++){
@@ -433,7 +433,7 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
   	     		sent_logp += log(temp);
   	    	}
 
-          of_lsda<<"\n";
+//          of_lsda<<"\n";
           //cout<<"\npush to logp_record"<<endl;
 
           if(flag_1st)

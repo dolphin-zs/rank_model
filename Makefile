@@ -2,6 +2,7 @@ objects1 = vocab.o rankmodel.o buildrank.o rankmain.o
 objects2 = vocab.o sentence.o model12.o sortmodel1.o model1main.o
 objects3 = vocab.o rankmodel.o buildrank.o multimain.o
 objects4 = vocab.o rankmodel.o buildrank.o decodemain.o
+objects5 = vocab.o rankmodel.o buildrank.o trainmain.o
 
 
 rankmain : $(objects1)
@@ -19,6 +20,8 @@ multimain.o : buildrank.h rankmodel.h vocab.h gl_defs.h
 
 decodemain.o : buildrank.h rankmodel.h vocab.h gl_defs.h
 
+trainmain.o : buildrank.h rankmodel.h vocab.h gl_defs.h
+
 
 sentence.o : sentence.h gl_defs.h
 
@@ -29,12 +32,12 @@ sortmodel1.o : sortmodel1.h model12.h gl_defs.h vocab.h sentence.h
 model1main.o : sortmodel1.h model12.h gl_defs.h vocab.h sentence.h
 
 
-.PHONY : model1 clean cleanobj multimain decodemain
+.PHONY : model1 clean cleanobj multimain decodemain trainmain
 model1 : $(objects2)
 	g++ $(objects2) -o model1
 
 clean :
-	rm -rf rankmain model1 multimain decodemain *.o
+	rm -rf rankmain model1 multimain decodemain trainmain *.o
 
 cleanobj :
 	rm -rf *.o
@@ -44,4 +47,7 @@ multimain : $(objects3)
 
 decodemain : $(objects4)
 	g++ $(objects4) -o decodemain
+
+trainmain : $(objects5)
+	g++ $(objects5) -o trainmain
 

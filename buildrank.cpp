@@ -15,6 +15,19 @@ void buildrank::buildmodel(const char* in_file){
 
 }
 
+void buildrank::trainmodel(const char* in_file){
+
+  cout<<"......Training RankModel......"<<endl;
+  RankModel test_rank(EList, FList);
+  test_rank.readcorpus(in_file);
+  test_rank.train_init2();
+  test_rank.em_algo2(5);
+  test_rank.print_tffe("t_ffe.prob");
+
+  cout<<"......Training END......"<<endl;
+
+}
+
 void buildrank::multibuild(const char* in_file){
 
   cout<<"......Building RankModel......"<<endl;
