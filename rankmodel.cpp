@@ -362,6 +362,7 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
   cout<<"......RankModel Decoding......"<<endl;
   int noline = decode_en.size();
   double temp, temp_pp;
+  int temp_index;
 
   logp_record.clear();
   if(logp_record.size() != 0){
@@ -428,9 +429,12 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
   	    				temp_pp = t_ffe[FFEPair(fr_id, ft_id, es[cc])].prob;
   	    			if(temp_pp > temp){
   	    				temp = temp_pp;
+                temp_index = cc;
   	    			}
   	    		}
   	     		sent_logp += log(temp);
+            of_lsda<<es[temp_index]<<"  "<<sent_logp<<" | ";
+
   	    	}
 
 //          of_lsda<<"\n";
