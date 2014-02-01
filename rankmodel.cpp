@@ -406,7 +406,7 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
 //              of_lsda<<lsda_temp_sent[rr]<<"  ";
 //          of_lsda<<"\n";
 
-          double sent_logp = 0;
+          double sent_logp = 1;
           for(int rr=0;rr < lsda_temp_sent.size();rr++){
             //cout<<rr<<" ";
             istringstream buffer_ffid(lsda_temp_sent[rr]);
@@ -432,13 +432,13 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
                 temp_index = cc;
   	    			}
   	    		}
-  	     		sent_logp += log(temp);
-            of_lsda<<es[temp_index]<<"  "<<sent_logp<<" | ";
+  	     		sent_logp *= temp;
+//            of_lsda<<es[temp_index]<<"  "<<sent_logp<<" | ";
 
   	    	}
 
 //          of_lsda<<"\n";
-          //cout<<"\npush to logp_record"<<endl;
+//          //cout<<"\npush to logp_record"<<endl;
 
           if(flag_1st)
             logp_record[i].push_back( fs_logp(i, sent_logp) );

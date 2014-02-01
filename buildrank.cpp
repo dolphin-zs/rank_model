@@ -4,13 +4,15 @@
 void buildrank::buildmodel(const char* in_file){
 
   cout<<"......Building RankModel......"<<endl;
+
 	RankModel test_rank(EList, FList);
 	test_rank.readcorpus(in_file);
 	test_rank.train_init2();
 	test_rank.em_algo2(5);
-  //test_rank.print_tffe("t_ffe.prob");
+  test_rank.print_tffe("t_ffe.prob");
   test_rank.decode_init(en_name, fr_name, Num, logp_array);
   test_rank.decoding(en_name, fr_name, Num, logp_array);
+
   cout<<"......Building END......."<<endl;
 
 }
@@ -18,6 +20,7 @@ void buildrank::buildmodel(const char* in_file){
 void buildrank::trainmodel(const char* in_file){
 
   cout<<"......Training RankModel......"<<endl;
+
   RankModel test_rank(EList, FList);
   test_rank.readcorpus(in_file);
   test_rank.train_init2();
@@ -90,7 +93,7 @@ void buildrank::sort_print(const char* fn_sort){
 		sort(temp_fl.begin(), temp_fl.end());
 		of_sort<<(j+1)<<"\n";
 		for(vector<fs_logp>::iterator it=temp_fl.begin();it != temp_fl.end();it++)
-			of_sort<<(*it).nof<<"( "<<(*it).logp<<" ) ";
+			of_sort<<(*it).nof<<"( "<<log( (*it).logp )<<" ) ";
 		of_sort<<"\n";
 	}
   cout<<"there are "<<noSent<<" in total."<<endl;
