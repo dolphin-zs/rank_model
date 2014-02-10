@@ -374,6 +374,9 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
   for(int i=1;i <= N;i++)
       logp_record.push_back(zero_logpa);
 
+  ofstream of_debug1("sentprob.debug");// output debug 1 src#tg1#tg2#p(tg1,tg2|src)
+  ofstream of_debug2("rankprob.debug");// output debug 2 p(tg1 | src)
+
   for(int i=1;i <= N;i++){
     bool flag_1st = true;
     cout<<"handling "<<fr_name<<i<<" file"<<endl;
@@ -402,13 +405,22 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
           //cout<<"doing alignment line "<<k+1<<endl;
           lsdalignment(f_temp_sent, ft_temp_sent, lsda_temp_sent);
 
-//         for(int rr=0;rr < lsda_temp_sent.size();rr++)
+/*output debug 1 src ||| tg1 ||| tg2  */
+          for(vector<WordIndex>::iterator dt=es.begin();dt != es.end();dt++)
+              of_debug1<<EList[*dt]<<" ";
+          of_debug1<<" ||| ";
+          for(vector<string>::iterator dt=f_temp_sent.begin();dt != f_temp_sent.end();dt++)
+              of_debug1<<*dt<<" ";
+          of_debug1<<" ||| ";
+          for(vector<string>::iterator dt=ft_temp_sent.begin();dt != ft_temp_sent.end();dt++)
+              of_debug1<<*dt<<" ";
+          of_debug1<<" ||| ";
+//          for(int rr=0;rr < lsda_temp_sent.size();rr++)
 //              of_lsda<<lsda_temp_sent[rr]<<"  ";
 //          of_lsda<<"\n";
 
           double sent_logp = 1;
           for(int rr=0;rr < lsda_temp_sent.size();rr++){
-            //cout<<rr<<" ";
             istringstream buffer_ffid(lsda_temp_sent[rr]);
             string fr_str, ft_str;
             if( !((buffer_ffid>>fr_str)&&(buffer_ffid>>ft_str)) ){
@@ -422,7 +434,6 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
 
             temp = 0;
             for(int cc=0;cc < es.size();cc++){
-              //cout<<cc<<" ";
               if(t_ffe.find(FFEPair(fr_id, ft_id, es[cc])) == t_ffe.end())
          				temp_pp = 0.1e-10;
          			else
@@ -437,8 +448,8 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
 
   	    	}
 
+          of_debug1<<log(sent_logp)<<"\n";//output debug 1 log p(tg1,tg2|src)
 //          of_lsda<<"\n";
-//          //cout<<"\npush to logp_record"<<endl;
 
           if(flag_1st)
             logp_record[i].push_back( fs_logp(i, sent_logp) );
@@ -449,6 +460,11 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
 
       }//end of if
     }
+
+/* output debug 2 log p(tg1|src) */
+    for(int qq=0;qq < noline;qq++)
+        of_debug2<<logp_record[i][qq].logp<<"\n";
+
   }
   cout<<"......Decoding Successful......"<<endl;
 }
