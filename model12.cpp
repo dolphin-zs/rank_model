@@ -231,7 +231,7 @@ void model12::decoding1(string en, string fr, int N, vector<vector<fs_logp> >& l
       vector<WordIndex>& fs = decode_frarr[k][rr];
       l = es.size() - 1;
       m = fs.size() - 1;
-      double sum_logp = -m*log(l+1);
+      double sum_logp = -1.0*m*log(l+1.0);
       for(i=1;i <= m;i++){
         temp = 0;
         for(j=0;j <= l;j++){
