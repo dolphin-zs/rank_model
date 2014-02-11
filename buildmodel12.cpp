@@ -7,7 +7,7 @@ void buildmodel12::trainmodel1(const char* fn_snt){
   cout<<"......Training IBM model 1......"<<endl;
 
   model12 tmodel(EList, FList);
-  tmodel.train_init(fn_snt);
+  tmodel.train_init1(fn_snt);
   tmodel.em_algo1(5);
   tmodel.print_tfe("t_fe.prob");
 

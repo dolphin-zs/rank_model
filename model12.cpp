@@ -8,7 +8,35 @@ string zsInt2String(int i){
 }
 
 
-void model12::train_init(const char* fn_snt){
+void model12::train_init1(const char* fn_snt){
+  sHander.init(fn_snt);
+	sHander.new_start();
+	SentPair sent;
+	WordIndex i, j, l, m;
+
+	while(sHander.getNextSentence(sent)){
+		vector<WordIndex>& es = sent.esent;
+		vector<WordIndex>& fs = sent.fsent;
+		l = es.size() - 1;
+		m = fs.size() - 1;
+		double uniform = 1.0/es.size();
+		for(j=0;j <= l ;j++){
+			count_e[es[j]] = 0;
+			//count_jlm[j*G2+l*G1+m] = 0;
+			for(i=1;i <= m;i++){
+				cal_ef[WordPairIds(es[j],fs[i])].count = 0;
+				cal_ef[WordPairIds(es[j],fs[i])].prob = uniform;
+				//count_jilm[j*G3+i*G2+l*G1+m] = 0;
+				//q_jilm[j*G3+i*G2+l*G1+m] = 0;
+			}
+		}
+		//for(i=1;i <= m;i++)
+		//	count_ilm[i*G2+l*G1+m] = 0;
+	}
+
+}
+
+void model12::train_init12(const char* fn_snt){
   sHander.init(fn_snt);
 	sHander.new_start();
 	SentPair sent;
@@ -52,14 +80,14 @@ void model12::em_algo1(int noIterations){
 			m = fs.size() - 1;
 			for(j=0;j <= l ;j++){
 				count_e[es[j]] = 0;
-				count_jlm[j*G2+l*G1+m] = 0;
+				//count_jlm[j*G2+l*G1+m] = 0;
 				for(i=1;i <= m;i++){
 					cal_ef[WordPairIds(es[j],fs[i])].count = 0;
-					count_jilm[j*G3+i*G2+l*G1+m] = 0;
+					//count_jilm[j*G3+i*G2+l*G1+m] = 0;
 				}
 			}
-			for(i=1;i <= m;i++)
-				count_ilm[i*G2+l*G1+m] = 0;
+			//for(i=1;i <= m;i++)
+			//	count_ilm[i*G2+l*G1+m] = 0;
 		}
     //estimate process
 	  sHander.new_start();
@@ -76,8 +104,8 @@ void model12::em_algo1(int noIterations){
 					temp = cal_ef[WordPairIds(es[j], fs[i])].prob/sum;
 					cal_ef[WordPairIds(es[j], fs[i])].count += temp;
 					count_e[es[j]] += temp;
-					count_jilm[j*G3+i*G2+l*G1+m] += temp;
-					count_ilm[i*G2+l*G1+m] += temp;
+					//count_jilm[j*G3+i*G2+l*G1+m] += temp;
+					//count_ilm[i*G2+l*G1+m] += temp;
 				}
 			}
 		}
@@ -91,7 +119,7 @@ void model12::em_algo1(int noIterations){
 			for(i=1;i <= m;i++){
 				for(j=0;j <= l;j++){
 					cal_ef[WordPairIds(es[j], fs[i])].prob = cal_ef[WordPairIds(es[j], fs[i])].count/count_e[es[j]];
-					q_jilm[j*G3+i*G2+l*G1+m] = count_jilm[j*G3+i*G2+l*G1+m]/count_ilm[i*G2+l*G1+m];
+					//q_jilm[j*G3+i*G2+l*G1+m] = count_jilm[j*G3+i*G2+l*G1+m]/count_ilm[i*G2+l*G1+m];
 				}//end of for j
 			}//end of for i
 		}//end of while

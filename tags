@@ -164,17 +164,20 @@ hash_ffe	rankmodel.h	/^class hash_ffe{$/;"	c
 hash_ffe	test.cpp	/^class hash_ffe{$/;"	c	file:
 hashfunc	rankmodel.h	/^class hashfunc: public unary_function< pair<WordIndex, WordIndex>, size_t>$/;"	c
 hashpair	model12.h	/^class hashpair: public unary_function< pair<WordIndex, WordIndex>, size_t>$/;"	c
+in_file	predo/lsda2snt.py	/^in_file = open(lsda_name, 'r')$/;"	v
 info_fe	rankmodel.h	/^		hash_map<WordPairIds, CPPair, hashfunc, equal_to<WordPairIds> > info_fe;$/;"	m	class:RankModel
 info_ffe	rankmodel.h	/^		hash_map<FFEPair, CPPair, hash_ffe, equal_ffe> info_ffe;$/;"	m	class:RankModel
-init	sentence.cpp	/^SentenceHandle::init(const char* fn){$/;"	f	class:SentenceHandle
+init	sentence.cpp	/^void SentenceHandle::init(const char* fn){$/;"	f	class:SentenceHandle
 ldsalignment	predo/lsdalign.cpp	/^void ldsalignment(vector<string>& f1, vector<string>& f2, vector<string>& ans){$/;"	f
 ldsalignment	predo/p2rs.cpp	/^void ldsalignment(vector<string>& f1, vector<string>& f2, vector<string>& ans){$/;"	f
+lines	predo/lsda2snt.py	/^lines = in_file.readlines()$/;"	v
 logp	model12.h	/^		double logp;$/;"	m	class:fs_logp
 logp	rankmodel.h	/^		double logp;$/;"	m	class:fs_logp
 logp_array	buildmodel12.h	/^    vector<vector<fs_logp> > logp_array;$/;"	m	class:buildmodel12
 logp_array	buildrank.h	/^		vector<vector<fs_logp> > logp_array;$/;"	m	class:buildrank
 logp_array	sortmodel1.h	/^		vector<vector<fs_logp> > logp_array;$/;"	m	class:SortModel1
 logp_array	sortrank.h	/^		vector<vector<fs_logp> > logp_array;$/;"	m	class:SortRank
+lsda_name	predo/lsda2snt.py	/^lsda_name = sys.argv[1]$/;"	v
 lsdalignment	rankmodel.cpp	/^void lsdalignment(const vector<string>& f1, const vector<string>& f2, vector<string>& ans){$/;"	f
 main	decodemain.cpp	/^int main(int argc, char **argv)$/;"	f
 main	decodemodel1main.cpp	/^int main(int argc, char **argv)$/;"	f
@@ -208,10 +211,11 @@ nof	model12.h	/^		int nof;$/;"	m	class:fs_logp
 nof	rankmodel.h	/^		int nof;$/;"	m	class:fs_logp
 objects	history.mk	/^objects = vocab.o rankmodel.o sortrank.o rankmain.o$/;"	m
 objects1	Makefile	/^objects1 = vocab.o rankmodel.o buildrank.o rankmain.o$/;"	m
-objects2	Makefile	/^objects2 = vocab.o sentence.o model12.o sortmodel1.o model1main.o$/;"	m
-objects3	Makefile	/^objects3 = vocab.o rankmodel.o buildrank.o multimain.o$/;"	m
+objects2	Makefile	/^objects2 = vocab.o sentence.o model12.o buildmodel12.o trainmodel1main.o$/;"	m
+objects3	Makefile	/^objects3 = vocab.o sentence.o model12.o buildmodel12.o decodemodel1main.o$/;"	m
 objects4	Makefile	/^objects4 = vocab.o rankmodel.o buildrank.o decodemain.o$/;"	m
 objects5	Makefile	/^objects5 = vocab.o rankmodel.o buildrank.o trainmain.o$/;"	m
+of	predo/lsda2snt.py	/^of = open("zh_en.snt", 'w')$/;"	v
 operator ()	model12.h	/^		size_t operator() (const pair<WordIndex, WordIndex>& key) const$/;"	f	class:hashpair
 operator ()	rankmodel.h	/^		bool operator()(const class FFEPair& x, const class FFEPair& y) const{$/;"	f	class:equal_ffe
 operator ()	rankmodel.h	/^		size_t operator() (const pair<WordIndex, WordIndex>& key) const$/;"	f	class:hashfunc
@@ -245,18 +249,21 @@ sort_print	buildmodel12.cpp	/^void buildmodel12::sort_print(const char* fn_sort)
 sort_print	buildrank.cpp	/^void buildrank::sort_print(const char* fn_sort){$/;"	f	class:buildrank
 sort_print	sortmodel1.cpp	/^void SortModel1::sort_print(){$/;"	f	class:SortModel1
 sort_print	sortrank.cpp	/^void SortRank::sort_print(){$/;"	f	class:SortRank
+sys	predo/lsda2snt.py	/^import sys$/;"	i
 t_ffe	rankmodel.h	/^		hash_map<FFEPair, CPPair, hash_ffe, equal_ffe> t_ffe;$/;"	m	class:RankModel
 total	vocab.h	/^		double total;$/;"	m	class:VcbList
 totalPair	sentence.h	/^		int totalPair;$/;"	m	class:SentenceHandle
 totalVocab	vocab.h	/^		inline double totalVocab() const { return total; }$/;"	f	class:VcbList
-train_init	model12.cpp	/^void model12::train_init(const char* fn_snt){$/;"	f	class:model12
+train_init1	model12.cpp	/^void model12::train_init1(const char* fn_snt){$/;"	f	class:model12
 train_init1	rankmodel.cpp	/^void RankModel::train_init1(){$/;"	f	class:RankModel
+train_init12	model12.cpp	/^void model12::train_init12(const char* fn_snt){$/;"	f	class:model12
 train_init2	rankmodel.cpp	/^void RankModel::train_init2(){$/;"	f	class:RankModel
 trainmodel	buildrank.cpp	/^void buildrank::trainmodel(const char* in_file){$/;"	f	class:buildrank
 trainmodel1	buildmodel12.cpp	/^void buildmodel12::trainmodel1(const char* fn_snt){$/;"	f	class:buildmodel12
 uniqTokens	vocab.h	/^		inline WordIndex uniqTokens() const { return noUniqueTokens; }$/;"	f	class:VcbList
 volist	vocab.h	/^		vector<WordEntry> volist;$/;"	m	class:VcbList
 word	vocab.h	/^		string word;$/;"	m	class:WordEntry
+words	predo/lsda2snt.py	/^    words = lines[i].split();$/;"	v
 zsInt2String	model12.cpp	/^string zsInt2String(int i){$/;"	f
 zsInt2String	predo/p2rs.cpp	/^string zsInt2String(int i){$/;"	f
 zsInt2String	rankmodel.cpp	/^string zsInt2String(int i){$/;"	f

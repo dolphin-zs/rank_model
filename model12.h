@@ -81,7 +81,8 @@ class model12
 
 		model12(VcbList& el, VcbList& fl): EList(el), FList(fl) {}
     //IBM model train
-		void train_init(const char* fn_snt);
+		void train_init1(const char* fn_snt);
+    void train_init12(const char* fn_snt);
 		void em_algo1(int noIterations);//model 1 algorithm
 		void em_algo2(int noIterations);//model 2 algorithm
 
