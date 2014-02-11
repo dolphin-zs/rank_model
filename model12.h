@@ -68,21 +68,34 @@ class model12
 	public:
 		VcbList& EList;
 		VcbList& FList;
-		SentenceHandle& sHander;
+		SentenceHandle sHander;
+    vector<vector<WordIndex> > decode_en;
+    vector<vector<vector<WordIndex> > > decode_frarr;
+
 		hash_map<WordPairIds, CPPair, hashpair, equal_to<WordPairIds> > cal_ef;
 		map<WordIndex, double> count_e;
 		map<WordIndex, double> count_jilm;
 		map<WordIndex, double> count_ilm;
 		map<WordIndex, double> count_jlm;
 		map<WordIndex, double> q_jilm;
-		
-		model12(VcbList& el, VcbList& fl, SentenceHandle& sh): EList(el), FList(fl), sHander(sh) {}
-		void initialization();
-		void em_algo1(int noIterations);
-		void em_algo2(int noIterations);
-		void print_tfe(const char* cooc_f, ofstream& of);
+
+		model12(VcbList& el, VcbList& fl): EList(el), FList(fl) {}
+    //IBM model train
+		void train_init(const char* fn_snt);
+		void em_algo1(int noIterations);//model 1 algorithm
+		void em_algo2(int noIterations);//model 2 algorithm
+
+    //IBM model 1 decode
+    void decode_init1(string en, string fr, int N, const char* fn_tfe);
+    void decoding1(string en, string fr, int N, vector<vector<fs_logp> >& logp_record);
+    void Decoder1(string en, string fr, int N, const char* fn_tfe, vector<vector<fs_logp> >& logp_record);
+
+    //output function
+		void print_tfe(const char* fn_tfe);
+
+    //old function
 		void print_align(ofstream& of);
-		void cal_logp(int no, vector<fs_logp>& fe_logp); 
+		void cal_logp(int no, vector<fs_logp>& fe_logp);
 };
 
 #endif

@@ -1,20 +1,22 @@
 
 #include "sentence.h"
 
-SentenceHandle::SentenceHandle(const char* fn){
-	filename = fn;
+SentenceHandle::SentenceHandle(){
+	currentSentence = 0;
+	noSentInBuffer = 0;
+	pair_no = 0;
+	totalPair = 0;
+}
+
+void SentenceHandle::init(const char* fn){
+  filename = fn;
 	p_inputFile = new ifstream(filename);
 	if(!(*p_inputFile)){
 		cerr<<"ERROR: can not open the file: "<<filename<<endl;
 		exit(1);
 	}
-	currentSentence = 0;
-	noSentInBuffer = 0;
-	pair_no = 0;
-	totalPair = 0;
 	sent_buffer.clear();
-	
-	cout<<"Calculating vocabulary frequencies from corpus "<<filename<<endl;
+  cout<<"Calculating vocabulary frequencies from corpus "<<filename<<endl;
 	SentPair s;
 	while(getNextSentence(s))
 		totalPair++;
@@ -43,10 +45,10 @@ bool SentenceHandle::getNextSentence(SentPair& sent){
 	//	noSentInBuffer = 0;
 	//	currentSentence = 0;
 	//	sent_buffer.clear();
-	
+
 		if(currentSentence == 0)
 			cout<<"reading more sentence pair into memory......"<<endl;
-		else 
+		else
 			cout<<"already readed into the memory......"<<endl;
 
 		while((noSentInBuffer <= TRAIN_BUFFER_SIZE)&&(readNextSentence(sent_temp))){
@@ -104,7 +106,7 @@ bool SentenceHandle::readNextSentence(SentPair& sent){
 	}
 
 	sent.sentenceNo = ++pair_no;
-	
+
 	return true;
 }
 

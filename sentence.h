@@ -50,7 +50,8 @@ class SentenceHandle
 		int pair_no;
 		int totalPair;
 
-		SentenceHandle(const char* fn);
+		SentenceHandle();
+    void init(const char* fn);
 		void new_start();
 		bool getNextSentence(SentPair&);
 		bool readNextSentence(SentPair&);

@@ -463,7 +463,7 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
 
 /* output debug 2 log p(tg1|src) */
     for(int qq=0;qq < noline;qq++)
-        of_debug2<<logp_record[i][qq].logp<<"\n";
+        of_debug2<<log( logp_record[i][qq].logp )<<"\n";
 
   }
   cout<<"......Decoding Successful......"<<endl;

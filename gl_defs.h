@@ -11,7 +11,7 @@ using namespace std;
 typedef unsigned int WordIndex;
 typedef unsigned int PositionIndex;
 const unsigned int MAX_VOCAB_SIZE = UINT_MAX;
-const int TRAIN_BUFFER_SIZE = 50000;
+const int TRAIN_BUFFER_SIZE = 500000;
 const unsigned int MAX_SENTENCE_LENGTH = 150;
 const long long G1 = MAX_SENTENCE_LENGTH + 5;
 const long long G2 = G1*G1, G3 = G2*G1;
