@@ -40,7 +40,7 @@ void buildmodel12::sort_print(const char* fn_sort){
 		sort(temp_fl.begin(), temp_fl.end());
 		of_sort<<(j+1)<<"\n";
 		for(vector<fs_logp>::iterator it=temp_fl.begin();it != temp_fl.end();it++)
-			of_sort<<(*it).nof<<"( "<<log( (*it).logp )<<" ) ";
+			of_sort<<(*it).nof<<"( "<<(*it).logp<<" ) ";
 		of_sort<<"\n";
 	}
   cout<<"there are "<<noSent<<" in total."<<endl;
