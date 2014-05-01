@@ -113,6 +113,7 @@ class RankModel{
 		vector<RankSent> rankcorpus;
     vector<vector<WordIndex> > decode_en;
     vector<vector<vector<string> > > decode_frarr;
+    vector<vector<FPair> > decode_ff;
 
 		hash_map<FFEPair, CPPair, hash_ffe, equal_ffe> info_ffe;
 		hash_map<WordPairIds, CPPair, hashfunc, equal_to<WordPairIds> > info_fe;
@@ -132,9 +133,11 @@ class RankModel{
 		void em_algo2(int noIterations);
 
     //decode function
+    void read_tffe(const char* fn_tffe);
     void decode_init(string en, string fr, int N, vector<vector<fs_logp> >& logp_record);
     void decoding(string en, string fr, int N, vector<vector<fs_logp> >& logp_record);
     void Decoder(string en, string fr, int N, vector<vector<fs_logp> >& logp_record, const char* fn_tffe);
+    void Decoder_na(string en, string fr, int N, vector<vector<fs_logp> >& logp_record, const char* fn_tffe, const char* fn_tst_ff);
 
     //output function
     void print_tffe(const char* fn_tffe);

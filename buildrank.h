@@ -19,6 +19,7 @@ class buildrank
 
     void trainmodel(const char* in_file);
     void decodemodel(const char* in_tffe);
+    void decodemodel_na(const char* in_tffe, const char* in_tst_ff);
 
 		void sort_print(const char* fn_sort);
     void multibuild(const char* in_file);

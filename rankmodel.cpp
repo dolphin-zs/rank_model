@@ -366,13 +366,13 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
 
   logp_record.clear();
   if(logp_record.size() != 0){
-      cerr<<"logp_array size error. "<<endl;
-      exit(1);
+    cerr<<"logp_array size error. "<<endl;
+    exit(1);
   }
   vector<fs_logp> zero_logpa;
   logp_record.push_back(zero_logpa);
   for(int i=1;i <= N;i++)
-      logp_record.push_back(zero_logpa);
+    logp_record.push_back(zero_logpa);
 
   ofstream of_debug1("sentprob.debug");// output debug 1 src#tg1#tg2#p(tg1,tg2|src)
   ofstream of_debug2("rankprob.debug");// output debug 2 p(tg1 | src)
@@ -469,26 +469,144 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
   cout<<"......Decoding Successful......"<<endl;
 }
 
-void RankModel::Decoder(string en, string fr, int N, vector<vector<fs_logp> >& logp_record, const char* fn_tffe){
-    ifstream in_tf(fn_tffe);
-    if(!in_tf){
-        cerr<<"ERROR: cannot open file "<<fn_tffe<<endl;
-        exit(1);
-    }
-    t_ffe.clear();
-    cout<<"......Reading t(f, f'|e) pair from file "<<fn_tffe<<endl;
-    WordIndex f_id, ft_id, e_id;
-    double temp_logp;
-    string temp_line;
-    while(getline(in_tf, temp_line)){
-        istringstream buffer_line(temp_line);
-        if(!((buffer_line>>f_id) && (buffer_line>>ft_id) && (buffer_line>>e_id) && (buffer_line>>temp_logp)))
-            cerr<<"ERROR in t(f, f'|e) pair"<<endl;
-        t_ffe[ FFEPair(f_id, ft_id, e_id) ].prob = temp_logp;
-    }
-    decode_init(en, fr, N, logp_record);
-    decoding(en, fr, N, logp_record);
+void RankModel::read_tffe(const char* fn_tffe){
+
+  /* reading t(f, f'|e) from fn_tffe file */
+  ifstream in_tf(fn_tffe);
+  if(!in_tf){
+    cerr<<"error: cannot open file "<<fn_tffe<<endl;
+    exit(1);
+  }
+  t_ffe.clear();
+  cout<<"......Reading t(f, f'|e) pair from file "<<fn_tffe<<endl;
+  WordIndex f_id, ft_id, e_id;
+  double temp_logp;
+  string temp_line;
+  while(getline(in_tf, temp_line)){
+    istringstream buffer_line(temp_line);
+    if(!((buffer_line>>f_id) && (buffer_line>>ft_id) && (buffer_line>>e_id) && (buffer_line>>temp_logp)))
+      cerr<<"ERROR in t(f, f'|e) pair"<<endl;
+    t_ffe[ FFEPair(f_id, ft_id, e_id) ].prob = temp_logp;
+  }
+
 }
+
+
+void RankModel::Decoder(string en, string fr, int N, vector<vector<fs_logp> >& logp_record, const char* fn_tffe){
+//  ifstream in_tf(fn_tffe);
+//  if(!in_tf){
+//      cerr<<"error: cannot open file "<<fn_tffe<<endl;
+//      exit(1);
+//  }
+//  t_ffe.clear();
+//  cout<<"......reading t(f, f'|e) pair from file "<<fn_tffe<<endl;
+//  wordindex f_id, ft_id, e_id;
+//  double temp_logp;
+//  string temp_line;
+//  while(getline(in_tf, temp_line)){
+//      istringstream buffer_line(temp_line);
+//      if(!((buffer_line>>f_id) && (buffer_line>>ft_id) && (buffer_line>>e_id) && (buffer_line>>temp_logp)))
+//          cerr<<"error in t(f, f'|e) pair"<<endl;
+//      t_ffe[ ffepair(f_id, ft_id, e_id) ].prob = temp_logp;
+//  }
+  read_tffe(fn_tffe);
+  decode_init(en, fr, N, logp_record);
+  decoding(en, fr, N, logp_record);
+}
+
+void RankModel::Decoder_na(string en_name, string fr_name, int N, vector<vector<fs_logp> >& logp_record, const char* fn_tffe, const char* fn_tst_ff){
+  /* reading t(f, f'|e) from fn_tffe file */
+  read_tffe(fn_tffe);
+
+  /* reading corpus */
+  cout<<"......decode Initialization......"<<endl;
+  ifstream in_en(en_name.c_str());
+  if(!in_en){
+    cerr<<"ERROR: cannot open file "<<en_name<<endl;
+    exit(1);
+  }
+  ifstream in_tst_ff(fn_tst_ff);
+  if(!in_tst_ff){
+    cerr<<"ERROR: cannot open file "<<fn_tst_ff<<endl;
+    exit(1);
+  }
+  string en_line, fr_line, temp_string;
+
+  cout<<"......reading "<<en_name<<" test corpus......"<<endl;
+  //reading en corpus
+  while(getline(in_en, en_line)){
+    vector<WordIndex> en_temp_sent;
+    en_temp_sent.push_back(0);
+    istringstream buffer_en(en_line);
+    while(buffer_en>>temp_string){
+      en_temp_sent.push_back( EList[temp_string] );
+    }
+    decode_en.push_back(en_temp_sent);
+  }
+
+  cout<<"......reading "<<fr_name<<" test corpus from file "<<fn_tst_ff<<endl;
+  //reading fr corpus
+  WordIndex f_id, ft_id;
+  while(getline(in_tst_ff, fr_line)){
+    vector<FPair> ff_temp_sent;
+    istringstream buffer_ff(fr_line);
+    while(buffer_ff>>f_id>>ft_id){
+      ff_temp_sent.push_back( FPair(f_id, ft_id) );
+    }
+    decode_ff.push_back(ff_temp_sent);
+  }
+
+  //Calculate the important length
+  int Total_len = decode_ff.size();
+  int Group_len = Total_len / N;
+  int Block_len = Group_len / (N-1);
+  cout<<"Total_len : "<<Total_len<<"  Group_len : "<<Group_len<<"  Block_len : "<<Block_len<<endl;
+
+  //initialize the logp_record
+  logp_record.clear();
+  vector<fs_logp> ztv_tmp;
+  logp_record.push_back(ztv_tmp);
+  for(int i=1;i <= N;i++){
+    vector<fs_logp> itv_tmp( Block_len, fs_logp(i, 0.0) );
+    logp_record.push_back(itv_tmp);
+  }
+
+  /*Running decoding algorithm*/
+  cout<<"......RankModel Decoding......"<<endl;
+  double sent_logp, temp_s, temp_pp;
+  WordIndex temp_index;
+  for(int i=1;i <= N;i++){
+    for(int j=1;j <= N-1;j++){
+      for(int k=0;k < Block_len;k++){
+        vector<FPair>& ffs_v = decode_ff[ (i-1)*Group_len + (j-1)*Block_len + k ];
+        vector<WordIndex>& es_v = decode_en[k];
+        sent_logp = 1;
+        for(int rr=0;rr < ffs_v.size();rr++){
+          WordIndex fr_id = ffs_v[rr].f_id;
+          WordIndex ft_id = ffs_v[rr].ft_id;
+
+          temp_s = 0;
+          for(int cc=0;cc < es_v.size();cc++){
+            if(t_ffe.find( FFEPair(fr_id, ft_id, es_v[cc]) ) == t_ffe.end())
+              temp_pp = 0.1e-10;
+            else
+              temp_pp = t_ffe[ FFEPair( fr_id, ft_id, es_v[cc] ) ].prob;
+
+            if(temp_pp > temp_s){
+              temp_s = temp_pp;
+              temp_index = cc;
+            }
+          }
+          sent_logp *= temp_s;
+        }
+        logp_record[i][k].logp += sent_logp;
+      }
+    }
+  }
+  cout<<"......Decode Successful......"<<endl;
+
+}
+
 
 
 void RankModel::print_tffe(const char* fn_tffe){

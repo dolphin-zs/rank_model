@@ -59,7 +59,17 @@ void buildrank::decodemodel(const char* in_tffe){
 
 }
 
+void buildrank::decodemodel_na(const char* in_tffe, const char* in_tst_ff){
+
+  cout<<"......Decoding RankModel(na)......"<<endl;
+  RankModel test_rank(EList, FList);
+  test_rank.Decoder_na(en_name, fr_name, Num, logp_array, in_tffe, in_tst_ff);
+  cout<<"......Decoding END......"<<endl;
+
+}
+
 void buildrank::buildmodel_old(const char* in_file){
+
 	RankModel test_rank(EList, FList);
 	test_rank.readcorpus(in_file);
 	test_rank.train_init2();
@@ -78,6 +88,7 @@ void buildrank::buildmodel_old(const char* in_file){
 			}
 		}
 	}
+
 }
 
 void buildrank::sort_print(const char* fn_sort){

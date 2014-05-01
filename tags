@@ -14,6 +14,7 @@ CPPair	rankmodel.h	/^		CPPair(double c, double p):count(c), prob(p){}$/;"	f	clas
 CPPair	rankmodel.h	/^class CPPair{$/;"	c
 Decoder	rankmodel.cpp	/^void RankModel::Decoder(string en, string fr, int N, vector<vector<fs_logp> >& logp_record, const char* fn_tffe){$/;"	f	class:RankModel
 Decoder1	model12.cpp	/^void model12::Decoder1(string en, string fr, int N, const char* fn_tfe, vector<vector<fs_logp> >& logp_record){$/;"	f	class:model12
+Decoderna	rankmodel.cpp	/^void RankModel::Decoderna(string en, string fr, int N, vector<vector<fs_logp> >& logp_record, const char* fn_tffe){$/;"	f	class:RankModel
 EList	buildmodel12.h	/^    VcbList& EList;$/;"	m	class:buildmodel12
 EList	buildrank.h	/^		VcbList& EList;$/;"	m	class:buildrank
 EList	model12.h	/^		VcbList& EList;$/;"	m	class:model12

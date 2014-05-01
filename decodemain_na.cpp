@@ -21,16 +21,18 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-  cout<<".........................RankModel Building........................."<<endl;
-	if(argc < 4){
-		cout<<"HELP: Please call "<<argv[0]<<" in this format: "<<argv[0]<<" en fr lsda_name "<<endl;
+  cout<<".........................RankModel Decoding(na)........................."<<endl;
+	if(argc < 6){
+		cout<<"HELP: Please call "<<argv[0]<<" in this format: "<<argv[0]<<" en fr N tffe_name tst_ff_name "<<endl;
 		exit(1);
 	}
 
 	string en_name(argv[1]);
 	string fr_name(argv[2]);
-	int N = 20;
-  string lsda_name(argv[4]);
+	int N = atoi(argv[3]);
+  string tffe_name(argv[4]);
+  string tst_ff_name(argv[5]);
+
 	string vcben_name = en_name + ".vcb";
 	string vcbfr_name = fr_name + ".vcb";
 	VcbList evcb(vcben_name.c_str());
@@ -38,9 +40,9 @@ int main(int argc, char **argv)
 	fvcb.readVocalList();
 	evcb.readVocalList();
 
-  string sort_name = "en_rank.sort" + zsInt2String(N);
+  string sort_name = fr_name + "_rank_na.sort";
 	buildrank br_test(en_name, fr_name, N, evcb, fvcb);
-	br_test.buildmodel(lsda_name.c_str());
+  br_test.decodemodel_na( tffe_name.c_str(), tst_ff_name.c_str() );
 	br_test.sort_print(sort_name.c_str());
 
 	return 0;
