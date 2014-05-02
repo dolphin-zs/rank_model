@@ -139,6 +139,9 @@ class RankModel{
     void Decoder(string en, string fr, int N, vector<vector<fs_logp> >& logp_record, const char* fn_tffe);
     void Decoder_na(string en, string fr, int N, vector<vector<fs_logp> >& logp_record, const char* fn_tffe, const char* fn_tst_ff);
 
+    //modify phrase-table file
+    void phrasetable_m( map<string, vector<vector<string> > >& pht_map, const char* fn_tffe, const char* fn_pht, const char* fn_npht);
+
     //output function
     void print_tffe(const char* fn_tffe);
 

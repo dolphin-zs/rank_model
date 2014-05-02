@@ -7,6 +7,12 @@ string zsInt2String(int i){
     return buf.str();
 }
 
+string zsDouble2String(double x){
+  ostringstream buf;
+  buf << x;
+  return buf.str();
+}
+
 int min2(int t1, int t2){
 	if(t1 <= t2)
 		return t1;
@@ -374,8 +380,8 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
   for(int i=1;i <= N;i++)
     logp_record.push_back(zero_logpa);
 
-  ofstream of_debug1("sentprob.debug");// output debug 1 src#tg1#tg2#p(tg1,tg2|src)
-  ofstream of_debug2("rankprob.debug");// output debug 2 p(tg1 | src)
+//  ofstream of_debug1("sentprob.debug");// output debug 1 src#tg1#tg2#p(tg1,tg2|src)
+//  ofstream of_debug2("rankprob.debug");// output debug 2 p(tg1 | src)
 
   for(int i=1;i <= N;i++){
     bool flag_1st = true;
@@ -406,15 +412,15 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
           lsdalignment(f_temp_sent, ft_temp_sent, lsda_temp_sent);
 
 /*output debug 1 src ||| tg1 ||| tg2  */
-          for(vector<WordIndex>::iterator dt=es.begin();dt != es.end();dt++)
-              of_debug1<<EList[*dt]<<" ";
-          of_debug1<<" ||| ";
-          for(vector<string>::iterator dt=f_temp_sent.begin();dt != f_temp_sent.end();dt++)
-              of_debug1<<*dt<<" ";
-          of_debug1<<" ||| ";
-          for(vector<string>::iterator dt=ft_temp_sent.begin();dt != ft_temp_sent.end();dt++)
-              of_debug1<<*dt<<" ";
-          of_debug1<<" ||| ";
+//          for(vector<WordIndex>::iterator dt=es.begin();dt != es.end();dt++)
+//              of_debug1<<EList[*dt]<<" ";
+//          of_debug1<<" ||| ";
+//          for(vector<string>::iterator dt=f_temp_sent.begin();dt != f_temp_sent.end();dt++)
+//              of_debug1<<*dt<<" ";
+//          of_debug1<<" ||| ";
+//          for(vector<string>::iterator dt=ft_temp_sent.begin();dt != ft_temp_sent.end();dt++)
+//              of_debug1<<*dt<<" ";
+//          of_debug1<<" ||| ";
 //          for(int rr=0;rr < lsda_temp_sent.size();rr++)
 //              of_lsda<<lsda_temp_sent[rr]<<"  ";
 //          of_lsda<<"\n";
@@ -448,7 +454,7 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
 
   	    	}
 
-          of_debug1<<log(sent_logp)<<"\n";//output debug 1 log p(tg1,tg2|src)
+//          of_debug1<<log(sent_logp)<<"\n";//output debug 1 log p(tg1,tg2|src)
 //          of_lsda<<"\n";
 
           if(flag_1st)
@@ -462,8 +468,8 @@ void RankModel::decoding(string en_name, string fr_name, int N, vector<vector<fs
     }
 
 /* output debug 2 log p(tg1|src) */
-    for(int qq=0;qq < noline;qq++)
-        of_debug2<<log( logp_record[i][qq].logp )<<"\n";
+//    for(int qq=0;qq < noline;qq++)
+//        of_debug2<<log( logp_record[i][qq].logp )<<"\n";
 
   }
   cout<<"......Decoding Successful......"<<endl;
@@ -512,6 +518,128 @@ void RankModel::Decoder(string en, string fr, int N, vector<vector<fs_logp> >& l
   read_tffe(fn_tffe);
   decode_init(en, fr, N, logp_record);
   decoding(en, fr, N, logp_record);
+}
+
+void split(vector<string>& pht_vec, const string& tmp_line, string pattern){
+  int pos_s = 0;
+  int pos_e = 0;
+  int length = tmp_line.size();
+  while(pos_e < tmp_line.size()-3){
+    pos_e = tmp_line.find(pattern, pos_s);
+    string tmp_str = tmp_line.substr(pos_s, pos_e-pos_s);
+    pht_vec.push_back(tmp_str);
+    pos_s = pos_e + pattern.size();
+  }
+}
+
+string extrac_head(const string& tmp_line, string pattern){
+  int pos_s = 0;
+  int pos_e = tmp_line.find(pattern, pos_s);
+  return tmp_line.substr(pos_s, pos_e-pos_s);
+}
+
+void RankModel::phrasetable_m( map<string, vector<vector<string> > >& pht_map, const char* fn_tffe, const char* fn_pht, const char* fn_npht){
+  read_tffe(fn_tffe);
+
+  cout<<"reading phrase-table file : "<<fn_pht<<endl;
+  ifstream in_pht(fn_pht);
+  ofstream of_npht(fn_npht);
+  string pht_line, hstr_cur("$$$^_^$$$");
+  while(getline( in_pht, pht_line)){
+    string hstr = extrac_head(pht_line, string(" |||") );
+    if (hstr_cur == string("$$$^_^$$$") )
+      hstr_cur = hstr;
+    vector<string> pht_line_vec;
+    split(pht_line_vec, pht_line, string("|||") );
+    if (hstr_cur == hstr){
+      //same hstr
+      pht_map[hstr].push_back(pht_line_vec);
+    }
+    else{
+      //different hstr, decode algorithm starts from here
+      int NT = pht_map[hstr_cur].size();
+
+      string temp_str;
+      //extract f phrase group
+      vector<vector<string> > pht_ff_group;
+      for(int i=0;i < NT;i++){
+        istringstream buffer_ff(pht_map[hstr_cur][i][1]);
+        vector<string> temp_vec;
+        while(buffer_ff>>temp_str){
+          temp_vec.push_back(temp_str);
+        }
+        pht_ff_group.push_back(temp_vec);
+      }
+      //extract e phrase group
+      vector<WordIndex> es;
+      es.push_back(0);
+      istringstream buffer_en(hstr_cur);
+      while(buffer_en>>temp_str){
+        es.push_back(EList[temp_str]);
+      }
+
+      for(int i=0;i < NT;i++){
+        vector<string>& f_temp_sent = pht_ff_group[i];
+        double group_prob = 0;
+        for(int j=0;j < NT;i++){
+          if (i!= j){
+            vector<string>& ft_temp_sent = pht_ff_group[j];
+            vector<string> lsda_temp_sent;
+            lsdalignment(f_temp_sent, ft_temp_sent, lsda_temp_sent);
+
+            double sent_prob = 1;
+            for(int rr=0;rr < lsda_temp_sent.size();rr++){
+              istringstream buffer_ffid(lsda_temp_sent[rr]);
+              string fr_str, ft_str;
+              if( !((buffer_ffid>>fr_str)&&(buffer_ffid>>ft_str)) ){
+                cerr<<"ERROR: decoding "<<i<<" "<<j<<" "<<k<<" "<<rr<<" part"<<endl;
+                exit(1);
+              }
+              WordIndex fr_id = FList[fr_str];
+              WordIndex ft_id = FList[ft_str];
+
+              double temp = 0, temp_pp;
+              for(int cc=0;cc < es.size();cc++){
+                if(t_ffe.find(FFEPair(fr_id, ft_id, es[cc])) == t_ffe.end())
+           				temp_pp = 0.1e-10;
+           			else
+    	    				temp_pp = t_ffe[FFEPair(fr_id, ft_id, es[cc])].prob;
+    	    			if(temp_pp > temp){
+    	    				temp = temp_pp;
+    	    			}
+    	    		}
+    	     		sent_prob *= temp;
+    	    	}
+            group_prob += sent_prob;
+          }//end of if
+        }
+
+        //output the result
+        //pht_map[hstr_cur][i][2] += zsDouble2String(group_prob) + " ";
+        vector<string>& opv = pht_map[hstr_cur][i];
+        for(int kk=0;kk < opv.size();kk++){
+          if (kk == 2){
+            of_npht<<opv[2]<<group_prob<<" |||";
+          }
+          else{
+            of_npht<<opv[kk]<<"|||";
+          }
+        }
+        of_npht<<endl;
+
+      }
+
+      //decode algorithm end, ending process
+      hstr_cur = hstr;
+      if(pht_map.find(hstr) != pht_map.end()){
+        cerr<<"ERROR: hstr "<<hstr<<"  already in the pht_map "<<endl;
+        exit();
+      }
+      pht_map[hstr].push_back(pht_line_vec);
+
+    }
+  }
+
 }
 
 void RankModel::Decoder_na(string en_name, string fr_name, int N, vector<vector<fs_logp> >& logp_record, const char* fn_tffe, const char* fn_tst_ff){
