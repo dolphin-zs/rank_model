@@ -4,6 +4,7 @@ objects3 = vocab.o sentence.o model12.o buildmodel12.o decodemodel1main.o
 objects4 = vocab.o rankmodel.o buildrank.o decodemain.o
 objects5 = vocab.o rankmodel.o buildrank.o trainmain.o
 objects6 = vocab.o rankmodel.o buildrank.o decodemain_na.o
+objects7 = vocab.o rankmodel.o phrasetablemain.o
 
 
 rankmain : $(objects1)
@@ -39,10 +40,13 @@ model1main.o : sortmodel1.h model12.h gl_defs.h vocab.h sentence.h
 
 decodemain_na.o : buildrank.h rankmodel.h vocab.h gl_defs.h
 
-.PHONY : clean cleanobj trainIBM1 decodeIBM1 decodemain trainmain decodemain_na
+phrasetablemain.o : rankmodel.h vocab.h gl_defs.h
+
+
+.PHONY : clean cleanobj trainIBM1 decodeIBM1 decodemain trainmain decodemain_na phrasetablemain
 
 clean :
-	rm -rf rankmain trainIBM1 decodeIBM1 decodemain trainmain decodemain_na *.o
+	rm -rf rankmain trainIBM1 decodeIBM1 decodemain trainmain decodemain_na phrase-tablemain *.o
 
 cleanobj :
 	rm -rf *.o
@@ -61,4 +65,7 @@ trainmain : $(objects5)
 
 decodemain_na : $(objects6)
 	g++ $(objects6) -o decodemain_na
+
+phrase-tablemain : $(objects7)
+	g++ $(objects7) -o phrase-tablemain
 

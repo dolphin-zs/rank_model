@@ -545,22 +545,25 @@ void RankModel::phrasetable_m( map<string, vector<vector<string> > >& pht_map, c
   ifstream in_pht(fn_pht);
   ofstream of_npht(fn_npht);
   string pht_line, hstr_cur("$$$^_^$$$");
-  while(getline( in_pht, pht_line)){
+  while(true){
+    bool if_getl = getline( in_pht, pht_line);
     string hstr = extrac_head(pht_line, string(" |||") );
     if (hstr_cur == string("$$$^_^$$$") )
       hstr_cur = hstr;
     vector<string> pht_line_vec;
     split(pht_line_vec, pht_line, string("|||") );
-    if (hstr_cur == hstr){
+    if ((hstr_cur == hstr) && if_getl){
       //same hstr
       pht_map[hstr].push_back(pht_line_vec);
     }
     else{
       //different hstr, decode algorithm starts from here
       int NT = pht_map[hstr_cur].size();
+      cout<<"Manipulating "<<hstr_cur<<"    size : "<<NT<<endl;
 
       string temp_str;
       //extract f phrase group
+      cout<<"extract f phrase group"<<endl;
       vector<vector<string> > pht_ff_group;
       for(int i=0;i < NT;i++){
         istringstream buffer_ff(pht_map[hstr_cur][i][1]);
@@ -571,6 +574,7 @@ void RankModel::phrasetable_m( map<string, vector<vector<string> > >& pht_map, c
         pht_ff_group.push_back(temp_vec);
       }
       //extract e phrase group
+      cout<<"extract e phrase group"<<endl;
       vector<WordIndex> es;
       es.push_back(0);
       istringstream buffer_en(hstr_cur);
@@ -579,10 +583,12 @@ void RankModel::phrasetable_m( map<string, vector<vector<string> > >& pht_map, c
       }
 
       for(int i=0;i < NT;i++){
+        cout<<"handling hstr:"<<hstr_cur<<" line:"<<i+1;
         vector<string>& f_temp_sent = pht_ff_group[i];
         double group_prob = 0;
-        for(int j=0;j < NT;i++){
+        for(int j=0;j < NT;j++){
           if (i!= j){
+            //cout<<"dealing with ("<<i+1<<","<<j+1<<")";
             vector<string>& ft_temp_sent = pht_ff_group[j];
             vector<string> lsda_temp_sent;
             lsdalignment(f_temp_sent, ft_temp_sent, lsda_temp_sent);
@@ -592,7 +598,7 @@ void RankModel::phrasetable_m( map<string, vector<vector<string> > >& pht_map, c
               istringstream buffer_ffid(lsda_temp_sent[rr]);
               string fr_str, ft_str;
               if( !((buffer_ffid>>fr_str)&&(buffer_ffid>>ft_str)) ){
-                cerr<<"ERROR: decoding "<<i<<" "<<j<<" "<<k<<" "<<rr<<" part"<<endl;
+                cerr<<"ERROR: decoding "<<i<<" "<<j<<" "<<hstr_cur<<" "<<rr<<" part"<<endl;
                 exit(1);
               }
               WordIndex fr_id = FList[fr_str];
@@ -611,11 +617,13 @@ void RankModel::phrasetable_m( map<string, vector<vector<string> > >& pht_map, c
     	     		sent_prob *= temp;
     	    	}
             group_prob += sent_prob;
+            //cout<<" prob: "<<sent_prob<<endl;
           }//end of if
         }
 
         //output the result
         //pht_map[hstr_cur][i][2] += zsDouble2String(group_prob) + " ";
+        cout<<" prob:"<<group_prob<<endl;
         vector<string>& opv = pht_map[hstr_cur][i];
         for(int kk=0;kk < opv.size();kk++){
           if (kk == 2){
@@ -630,14 +638,19 @@ void RankModel::phrasetable_m( map<string, vector<vector<string> > >& pht_map, c
       }
 
       //decode algorithm end, ending process
-      hstr_cur = hstr;
-      if(pht_map.find(hstr) != pht_map.end()){
-        cerr<<"ERROR: hstr "<<hstr<<"  already in the pht_map "<<endl;
-        exit();
+      pht_map.clear();
+      if (if_getl){
+        hstr_cur = hstr;
+        if(pht_map.find(hstr) != pht_map.end()){
+          cerr<<"ERROR: hstr "<<hstr<<"  already in the pht_map "<<endl;
+          exit(1);
+        }
+        pht_map[hstr].push_back(pht_line_vec);
       }
-      pht_map[hstr].push_back(pht_line_vec);
 
     }
+    if (!if_getl)
+      break;
   }
 
 }
