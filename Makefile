@@ -5,6 +5,7 @@ objects4 = vocab.o rankmodel.o buildrank.o decodemain.o
 objects5 = vocab.o rankmodel.o buildrank.o trainmain.o
 objects6 = vocab.o rankmodel.o buildrank.o decodemain_na.o
 objects7 = vocab.o rankmodel.o phrasetablemain.o
+objects8 = vocab.o rankmodel.o pht_leangiza_main.o
 
 
 rankmain : $(objects1)
@@ -42,11 +43,13 @@ decodemain_na.o : buildrank.h rankmodel.h vocab.h gl_defs.h
 
 phrasetablemain.o : rankmodel.h vocab.h gl_defs.h
 
+pht_leangiza_main.o : rankmodel.h vocab.h gl_defs.h
 
-.PHONY : clean cleanobj trainIBM1 decodeIBM1 decodemain trainmain decodemain_na phrasetablemain
+
+.PHONY : clean cleanobj trainIBM1 decodeIBM1 decodemain trainmain decodemain_na phrasetablemain pht_leangiza_main
 
 clean :
-	rm -rf rankmain trainIBM1 decodeIBM1 decodemain trainmain decodemain_na phrase-tablemain *.o
+	rm -rf rankmain trainIBM1 decodeIBM1 decodemain trainmain decodemain_na phrase-tablemain pht_leangiza_main *.o
 
 cleanobj :
 	rm -rf *.o
@@ -68,4 +71,7 @@ decodemain_na : $(objects6)
 
 phrase-tablemain : $(objects7)
 	g++ $(objects7) -o phrase-tablemain
+
+pht_leangiza_main : $(objects8)
+	g++ $(objects8) -o pht_leangiza_main
 

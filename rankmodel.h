@@ -141,6 +141,7 @@ class RankModel{
 
     //modify phrase-table file
     void phrasetable_m( map<string, vector<vector<string> > >& pht_map, const char* fn_tffe, const char* fn_pht, const char* fn_npht);
+    void phrasetable_learngiza( map<string, vector<vector<string> > >& pht_map, const char* fn_tffe, const char* fn_pht, const char* fn_npht);
 
     //output function
     void print_tffe(const char* fn_tffe);

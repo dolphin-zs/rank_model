@@ -103,6 +103,84 @@ void lsdalignment(const vector<string>& f1, const vector<string>& f2, vector<str
 }
 
 
+void lsda_pht(const vector<string>& f1, const vector<string>& f2, vector<string>& ans){
+	//cout<<"execute ldsalignment"<<endl;
+  const unsigned int ML = MAX_SENTENCE_LENGTH;
+	int lds_matrix[ML][ML];
+	int row = f1.size();
+	int col = f2.size();
+	int i, j;
+
+	for(i=0;i <= row;i++)
+		lds_matrix[i][0] = i;
+	for(j=0;j <= col;j++)
+		lds_matrix[0][j] = j;
+	for(i=1;i <= row;i++){
+		for(j=1;j <= col;j++){
+			if(f1[i-1] == f2[j-1])
+				lds_matrix[i][j] = lds_matrix[i-1][j-1];
+			else
+				lds_matrix[i][j] = min3(lds_matrix[i-1][j-1]+1, lds_matrix[i][j-1]+1, lds_matrix[i-1][j]+1);
+		}
+	}
+
+	vector<string>::iterator it;
+	string temp_s;
+	i = row;
+	j = col;
+	while((i>=1)&&(j>=1)){
+		if(f1[i-1] == f2[j-1]){
+			it = ans.begin();
+			temp_s = f1[i-1] + " " + f2[j-1];
+			ans.insert(it, temp_s);
+			i--;
+			j--;
+		}
+		else{
+			if((lds_matrix[i][j-1]+1) == lds_matrix[i][j]){
+				it = ans.begin();
+				temp_s = "NULL " + f2[j-1];
+				//ans.insert(it, temp_s);
+				j--;
+			}
+			else if((lds_matrix[i-1][j]+1) == lds_matrix[i][j]){
+				it = ans.begin();
+				temp_s = f1[i-1] + " NULL";
+				ans.insert(it, temp_s);
+				i--;
+			}
+			else if((lds_matrix[i-1][j-1]+1) == lds_matrix[i][j]){
+				it = ans.begin();
+				temp_s = f1[i-1] + " " + f2[j-1];
+				ans.insert(it, temp_s);
+				i--;
+				j--;
+			}
+			else
+				cerr<<"something wrong with lds_matrix["<<i<<"]["<<j<<"]\n";
+		}
+	}
+
+	if((i==0) && (j==0)){}
+	else if ((i==0) && (j!=0)){
+		for(;j>=1;j--){
+			it = ans.begin();
+			temp_s = "NULL " + f2[j-1];
+			//ans.insert(it, temp_s);
+		}
+	}
+	else if ((i!=0) && (j==0)){
+		for(;i>=1;i--){
+			it = ans.begin();
+			temp_s = f1[i-1] + " NULL";
+			ans.insert(it, temp_s);
+		}
+	}
+	else
+		cerr<<"something wrong in if row==0 && col==0"<<endl;
+
+}
+
 
 void RankModel::readcorpus(const char* in_file){
 	if (rankcorpus.size() != 0){
@@ -648,12 +726,181 @@ void RankModel::phrasetable_m( map<string, vector<vector<string> > >& pht_map, c
         pht_map[hstr].push_back(pht_line_vec);
       }
 
-    }
+    }//end of else
+
     if (!if_getl)
       break;
-  }
+  }//end of while
 
 }
+
+
+void RankModel::phrasetable_learngiza( map<string, vector<vector<string> > >& pht_map, const char* fn_tffe, const char* fn_pht, const char* fn_npht){
+  read_tffe(fn_tffe);
+
+  cout<<"reading phrase-table file : "<<fn_pht<<endl;
+  ifstream in_pht(fn_pht);
+  ofstream of_npht(fn_npht);
+  string pht_line, hstr_cur("$$$^_^$$$");
+  int cnt_single = 0;
+  int cnt_lines = 0;
+  while(true){
+    bool if_getl = getline( in_pht, pht_line);
+    if (if_getl){
+      cnt_lines++;
+    }
+    string hstr = extrac_head(pht_line, string(" |||") );
+    if (hstr_cur == string("$$$^_^$$$") )
+      hstr_cur = hstr;
+    vector<string> pht_line_vec;
+    split(pht_line_vec, pht_line, string("|||") );
+    if ((hstr_cur == hstr) && if_getl){
+      //same hstr
+      pht_map[hstr].push_back(pht_line_vec);
+    }
+    else{
+      //different hstr, decode algorithm starts from here
+      int NT = pht_map[hstr_cur].size();
+      cout<<"<=(@-@)=>"<<endl;
+      cout<<"=>Manipulating "<<hstr_cur<<"    size : "<<NT<<endl;
+      if (NT == 1){
+        cnt_single++;
+      }
+
+      string temp_str;
+      //extract alignment information
+      cout<<"extract alignment information"<<endl;
+      vector<map<int, vector<int> > > pht_alfe_group;
+      for(int i=0;i < NT;i++){
+        istringstream buffer_al(pht_map[hstr_cur][i][3]);
+        map<int, vector<int> > temp_map;
+        while(buffer_al>>temp_str){
+          int idstr_s = 0;
+          int idstr_e = temp_str.find(string("-"), idstr_s);
+          int ale = atoi( temp_str.substr(idstr_s, idstr_e - idstr_s).c_str() );
+          idstr_s = idstr_e + 1;
+          idstr_e = temp_str.length();
+          int alf = atoi( temp_str.substr(idstr_s, idstr_e - idstr_s).c_str() );
+          temp_map[alf].push_back(ale);
+
+          cout<<ale<<"-"<<alf<<" ";
+        }
+        cout<<endl;
+        pht_alfe_group.push_back(temp_map);
+      }
+
+      //extract f phrase group
+      cout<<"extract f phrase group"<<endl;
+      vector<vector<string> > pht_ff_group;
+      for(int i=0;i < NT;i++){
+        istringstream buffer_ff(pht_map[hstr_cur][i][1]);
+        vector<string> temp_vec;
+        while(buffer_ff>>temp_str){
+          temp_vec.push_back(temp_str);
+
+          cout<<temp_str<<" ";
+        }
+        cout<<endl;
+        pht_ff_group.push_back(temp_vec);
+      }
+      //extract e phrase group
+      cout<<"extract e phrase group"<<endl;
+      vector<WordIndex> es;
+      //es.push_back(0);
+      istringstream buffer_en(hstr_cur);
+      while(buffer_en>>temp_str){
+        es.push_back(EList[temp_str]);
+
+        cout<<temp_str<<" ";
+      }
+      cout<<endl;
+
+      for(int i=0;i < NT;i++){
+        cout<<"==>handling hstr:"<<hstr_cur<<" line:"<<i+1;
+        vector<string>& f_temp_sent = pht_ff_group[i];
+        map<int, vector<int> >& map_temp_sent = pht_alfe_group[i];
+        double group_prob = 0;
+        for(int j=0;j < NT;j++){
+          if (i!= j){
+            //cout<<"dealing with ("<<i+1<<","<<j+1<<")";
+            vector<string>& ft_temp_sent = pht_ff_group[j];
+            vector<string> lsda_temp_sent;
+            lsda_pht(f_temp_sent, ft_temp_sent, lsda_temp_sent);
+
+            double sent_prob = 1;
+            for(int rr=0;rr < lsda_temp_sent.size();rr++){
+              istringstream buffer_ffid(lsda_temp_sent[rr]);
+              string fr_str, ft_str;
+              if( !((buffer_ffid>>fr_str)&&(buffer_ffid>>ft_str)) ){
+                cerr<<"ERROR: decoding "<<i<<" "<<j<<" "<<hstr_cur<<" "<<rr<<" part"<<endl;
+                exit(1);
+              }
+              WordIndex fr_id = FList[fr_str];
+              WordIndex ft_id = FList[ft_str];
+              if(map_temp_sent.find(rr) != map_temp_sent.end()){
+                vector<int>& eid_vec = map_temp_sent[rr];
+                double tmp_score = 0.0;
+                for(int ast=0;ast < eid_vec.size();ast++){
+                  WordIndex e_id = es[eid_vec[ast]];
+                  if( t_ffe.find( FFEPair(fr_id, ft_id, e_id) ) != t_ffe.end() )
+                    tmp_score += t_ffe[ FFEPair(fr_id, ft_id, e_id) ].prob;
+                  else
+                    tmp_score += 0.1e-10;
+                }
+                tmp_score /= eid_vec.size();
+                sent_prob *= tmp_score;
+              }
+              else{
+                WordIndex e_id = 0;
+                if( t_ffe.find( FFEPair(fr_id, ft_id, e_id) ) != t_ffe.end() )
+                    sent_prob *= t_ffe[FFEPair(fr_id, ft_id, e_id)].prob;
+                else
+                    sent_prob *= 0.1e-10;
+              }
+    	    	}
+
+            group_prob += sent_prob;
+            //cout<<" prob: "<<sent_prob<<endl;
+          }//end of if
+        }//end of for j 0...NT-1
+
+        //output the result
+        //pht_map[hstr_cur][i][2] += zsDouble2String(group_prob) + " ";
+        cout<<" prob:"<<group_prob/NT<<endl;
+        vector<string>& opv = pht_map[hstr_cur][i];
+        for(int kk=0;kk < opv.size();kk++){
+          if (kk == 2){
+            of_npht<<opv[2]<<group_prob/NT<<" |||";
+          }
+          else{
+            of_npht<<opv[kk]<<"|||";
+          }
+        }
+        of_npht<<endl;
+
+      }
+
+      //decode algorithm end, ending process
+      pht_map.clear();
+      if (if_getl){
+        hstr_cur = hstr;
+        if(pht_map.find(hstr) != pht_map.end()){
+          cerr<<"ERROR: hstr "<<hstr<<"  already in the pht_map "<<endl;
+          exit(1);
+        }
+        pht_map[hstr].push_back(pht_line_vec);
+      }
+
+    }//end of else
+
+    if (!if_getl)
+      break;
+  }//end of while
+  cout<<"There are "<<cnt_lines<<" lines in file "<<fn_pht<<" and "<<cnt_single<<" single phrase"<<endl;
+
+}
+
+
 
 void RankModel::Decoder_na(string en_name, string fr_name, int N, vector<vector<fs_logp> >& logp_record, const char* fn_tffe, const char* fn_tst_ff){
   /* reading t(f, f'|e) from fn_tffe file */
