@@ -8,7 +8,7 @@ void buildmodel12::trainmodel1(const char* fn_snt){
 
   model12 tmodel(EList, FList);
   tmodel.train_init1(fn_snt);
-  tmodel.em_algo1(5);
+  tmodel.em_algo1(30);
   tmodel.print_tfe("t_fe.prob");
 
   cout<<"......Training END......"<<endl;

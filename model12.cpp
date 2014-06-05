@@ -123,6 +123,33 @@ void model12::em_algo1(int noIterations){
 				}//end of for j
 			}//end of for i
 		}//end of while
+    //calculate log-likelihood
+    double logp_corpus = 1;
+		sHander.new_start();
+		while(sHander.getNextSentence(sent)){
+			vector<WordIndex>& es = sent.esent;
+			vector<WordIndex>& fs = sent.fsent;
+			l = es.size() - 1;
+			m = fs.size() - 1;
+      double prob_sent = 1.0;
+      double ptmp_max = 0.0;
+			for(i=1;i <= m;i++){
+        ptmp_max = 0;
+				for(j=0;j <= l;j++){
+          if(cal_ef[WordPairIds(es[j], fs[i])].prob > ptmp_max)
+            ptmp_max = cal_ef[WordPairIds(es[j], fs[i])].prob;
+					//q_jilm[j*G3+i*G2+l*G1+m] = count_jilm[j*G3+i*G2+l*G1+m]/count_ilm[i*G2+l*G1+m];
+				}//end of for j
+        if(ptmp_max == 0){
+          cerr<<"ERROR of ptmp_max"<<endl;
+          exit(1);
+        }
+        prob_sent *= ptmp_max;
+			}//end of for i
+      logp_corpus += log(prob_sent);
+		}//end of while
+    cout<<"===>iteration "<<noit<<" logp_corpus : "<<logp_corpus<<endl;
+
 
 	}//end of for iteration
 

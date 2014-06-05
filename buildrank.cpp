@@ -24,7 +24,7 @@ void buildrank::trainmodel(const char* in_file){
   RankModel test_rank(EList, FList);
   test_rank.readcorpus(in_file);
   test_rank.train_init2();
-  test_rank.em_algo2(5);
+  test_rank.em_algo2(30);
   test_rank.print_tffe("t_ffe.prob");
 
   cout<<"......Training END......"<<endl;

@@ -388,6 +388,33 @@ void RankModel::em_algo2(int noIterations){
 				}
 			}
 		}
+
+    //calculate log-likelihood
+    double logp_corpus = 1;
+		for(unsigned int k=0;k < rankcorpus.size();k++){
+			RankSent& temp_sent = rankcorpus[k];
+			vector<WordIndex>& es = temp_sent.esent;
+			vector<FPair>& ffs = temp_sent.ffsent;
+			l = es.size() - 1;
+			m = ffs.size() - 1;
+      double prob_sent = 1;
+      double ptmp_max = 0;
+      for(i=1;i <= m;i++){
+        ptmp_max = 0;
+				for(j=0;j <= l;j++){
+					if(t_ffe[FFEPair(ffs[i].f_id, ffs[i].ft_id, es[j])].prob > ptmp_max)
+            ptmp_max = t_ffe[FFEPair(ffs[i].f_id, ffs[i].ft_id, es[j])].prob;
+				}
+        if(ptmp_max == 0){
+          cerr<<"ERROR in ptmp_max"<<endl;
+          exit(1);
+        }
+        prob_sent *= ptmp_max;
+			}
+      logp_corpus += log(prob_sent);
+		}
+    cout<<"====>Iteration "<<it<<" logp_corpus : "<<logp_corpus<<endl;
+
 	}
 }
 
